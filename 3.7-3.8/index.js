@@ -1,7 +1,15 @@
 const express = require('express') 
+var morgan = require('morgan')
+
 const app = express()
- 
-app.use(express.json())
+app.use(express.json()) 
+
+
+morgan.token('body-data', function getPostData(req) { 
+    return (JSON.stringify(req.body))
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms - :body-data'))
 
 let persons = [
     {
@@ -24,7 +32,7 @@ let persons = [
         "number": "39-23-6423122",
         "id": 4
     }
-]
+] 
 
 const generateId = () => {
     const maxId = persons.length > 0
@@ -34,7 +42,7 @@ const generateId = () => {
 }
 
 //POST http://localhost:3001/api/persons
-app.post('/api/persons', (request, response) => {  
+app.post('/api/persons', (request, response) => {   
     const body = request.body
 
     console.log("body ", body)
@@ -65,8 +73,8 @@ app.post('/api/persons', (request, response) => {
     response.json(person)
 })
 
-//GET http://localhost:3001/api/persons/1
-app.get('/api/persons', (req, res) => {
+//GET http://localhost:3001/api/persons
+app.get('/api/persons', (req, res) => {  
     res.json(persons)
 })
 
@@ -104,8 +112,9 @@ app.get('/info', (req, res) => {
 
 
 
-const PORT = 3001
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
+const PORT = 3001;
 
+// run the server
+app.listen(PORT, () => {
+    console.log(`Puhelinluettelo-server app listening on port ${PORT}!`);
+});
