@@ -50,19 +50,14 @@ app.post('/api/persons', (request, response, next) => {
         })
     }
 
-    let personFound = false
-
-    console.log('xxx')
+    let personFound = false 
 
     Person
         .findOne({ name: body.name })
-        .then(person => {
-            console.log('xxx2')
+        .then(person => { 
             if (person != null) {
                 personFound = true
-            }
-
-            console.log('person1 ', person)
+            } 
 
             if (!personFound) {
                 addPerson(request, response)
@@ -170,10 +165,10 @@ const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
 }
 
-// olemattomien osoitteiden käsittely
+// olemattomien osoitteiden kÃ¤sittely
 app.use(unknownEndpoint)
 
-// tämä tulee kaikkien muiden middlewarejen rekisteröinnin jälkeen!
+// tÃ¤mÃ¤ tulee kaikkien muiden middlewarejen rekisterÃ¶innin jÃ¤lkeen!
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
